@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>널북이 절주 챗봇</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#fafbfe; }
+  body {
+    font-family: "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+  }
+  #root {
+    width: 90vw; max-width: 480px; min-width:320px;
+    min-height: 100vh;
+    background: #fff; margin:0 auto;
+    border-radius: 0; box-shadow:none;
+    padding-bottom: 7vw; box-sizing: border-box;
+    display: flex; flex-direction: column;
+  }
+  #start-screen {
+    display: flex; flex-direction: column; align-items:center;
+    justify-content: flex-start; /* 중앙 아닌 위에서 시작 */
+    min-height: 100vh; min-height: 100dvh;
+    background:#fafbfe;
+    position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:10;
+    transition:opacity .28s;
+    padding-top: 11vh;
+    box-sizing: border-box;
+  }
+  @media (max-width:500px) {
+    #start-screen { padding-top: 7vh; }
+  }
+  #start-logo {
+    width: 24vw; max-width:100px; min-width:72px;
+    height: 24vw; max-height:100px; min-height:72px;
+    border-radius: 50%; object-fit:cover;
+    border: 4px solid #ecf0fa; background: #e6f1fb; margin-bottom: 24px;
+    box-shadow: 0 6px 24px rgba(52,142,230,0.1);
+  }
+  #start-title {
+    font-size: 4.1vw; font-weight:700; color: #23437f;
+    margin-bottom: 6vw; text-align:center; letter-spacing:-0.35px;
+    max-width: 86vw; line-height: 1.6;
+  }
+  #start-form {
+    width: 85vw; max-width:330px;
+    display:flex; flex-direction:column; gap:13px; align-items:center;
+    margin-top:0;
+  }
+  #start-name-input {
+    width: 100%; padding: 2.3vw 2.3vw;
+    font-size: 3.6vw; border-radius: 10px; border: 1.1px solid #d6daf4;
+    background: #f8fafd;
+    outline: none;
+    transition: border .16s;
+  }
+  #start-name-input:focus { border-color:#98bff6; }
+  #start-btn {
+    width:100%; background: #365eee; color:#fff; border:none; border-radius:10px;
+    padding: 2.2vw 0; font-size:3.7vw; font-weight:600; cursor:pointer; transition:background 0.18s;
+  }
+  #start-btn:disabled {
+    background: #c8d5f8; color:#bbc6db; cursor: not-allowed;
+  }
+  /* 기존 챗봇 UI */
+  #profile-bar { display: flex; align-items: center; padding: 4vw 4vw 2vw 4vw; border-bottom:1px solid #e7edf9; background:#f6f8fc; }
+  #profile-pic { width:12vw; height:12vw; min-width:42px; min-height:42px; border-radius:50%; background:#e3e7ef; object-fit: cover; border:2px solid #ebebec; margin-right:3vw;}
+  #profile-info { display:flex; flex-direction:column; gap:0.42vw;}
+  #profile-info span:first-child { font-weight:700; font-size:4.8vw; color:#23437f; letter-spacing:-0.5px; }
+  #profile-info span:last-child { font-size:3.1vw; color:#6c789d; letter-spacing:-0.5px;}
+  #chatbox {
+    flex: 1 1 0%;
+    background: #f8f9fb; border-radius:12px;
+    padding: 4vw 2vw 3vw 2vw;
+    margin: 1.5vw 0 0 0;
+    min-height: 330px; max-height: 70vh;
+    overflow-y: auto;
+    display: flex; flex-direction: column; gap: 2vw;
+    font-size: 3.7vw;
+  }
+  .msg-wrap { width:100%; display:flex; margin-bottom:.5vw;}
+  .msg-wrap.bot { flex-direction:row; justify-content:flex-start; }
+  .msg-wrap.user { flex-direction:row-reverse; justify-content:flex-end; }
+  .message {
+    max-width: 65vw;
+    padding: 2vw 4vw;
+    border-radius: 19px;
+    line-height: 1.5;
+    font-size: 3.55vw;
+    word-break: break-word;
+    box-shadow: 0 1px 4px rgba(180,188,204,0.05);
+    letter-spacing: -0.3px;
+    margin: 0 1vw;
+    display: inline-block;
+  }
+  .msg-wrap.bot .message {
+    background: #e6f1fb; color:#14447e; border-bottom-left-radius: 0;
+    margin-right:0; margin-left:0.2vw;
+  }
+  .msg-wrap.user .message {
+    background: #d9f1e8; color:#146138; border-bottom-right-radius: 0;
+    margin-left:auto; margin-right:0;
+  }
+  .msg-pic {
+    width:8vw; height:8vw; min-width:28px; min-height:28px; border-radius:50%;
+    object-fit:cover; border:1.6px solid #e4e5ea; background:#eee;
+    align-self:flex-end;
+    margin-right: 0.8vw;
+  }
+  #inputArea { margin:0 3vw; display:flex; justify-content:center;}
+  #choices {
+    width:100%; max-width:100%; box-sizing: border-box;
+    margin: 0; margin-top:1.6vw; display:flex;
+    flex-direction:column; gap:1.3vw; padding:0 0.5vw;
+  }
+  .choice-btn {
+    border:none; border-radius: 10px;
+    background: #f2f5fa; color:#39406a;
+    font-size:3.3vw; font-weight:500;
+    padding: 2vw 0; width:100%; box-sizing: border-box;
+    cursor:pointer;
+    box-shadow:0 1px 4px rgba(90,120,240,0.04);
+    letter-spacing: -0.5px; transition: background 0.12s;
+    display:block; margin:0;
+  }
+  .choice-btn:hover, .choice-btn:focus {background: #e7edfb; outline:none;}
+  @media (min-width:430px) {
+    #root{max-width:430px;}
+    #chatbox{font-size:18px;}
+    .message{font-size:17px;}
+    #start-title{font-size:20px;}
+    #start-name-input{font-size:16px; padding:9px;}
+    #start-btn{font-size:16px;}
+    .choice-btn{font-size:16.5px;}
+    #profile-info span:first-child{font-size:22px;}
+    #profile-info span:last-child{font-size:14px;}
+    .msg-pic{width:33px;height:33px;}
+  }
+</style>
+</head>
+<body>
+<div id="root">
+  <div id="start-screen">
+    <img src="1.png" id="start-logo" alt="널북이 프로필" />
+    <div id="start-title">안녕하세요! 금주책방 마스코드 널북이입니다.<br>상담자님 이름을 말해주세요!</div>
+    <form id="start-form" autocomplete="off">
+      <input type="text" id="start-name-input" placeholder="이름" maxlength="10" autocomplete="off" />
+      <button id="start-btn" type="submit" disabled>시작</button>
+    </form>
+  </div>
+  <!-- 본문: 이전과 동일 -->
+  <div id="profile-bar">
+    <img src="1.png" alt="널북이 프로필" id="profile-pic" />
+    <div id="profile-info">
+      <span>널북이</span>
+      <span>건강한 절주, 응원해요!</span>
+    </div>
+  </div>
+  <div id="chatbox"></div>
+  <div id="inputArea" style="display:none;"></div>
+  <div id="choices" style="display:none;"></div>
+</div>
+<script>
+const startScreen = document.getElementById('start-screen');
+const startNameInput = document.getElementById('start-name-input');
+const startBtn = document.getElementById('start-btn');
+const startForm = document.getElementById('start-form');
+
+const chatbox = document.getElementById('chatbox');
+const choicesDiv = document.getElementById('choices');
+let userName = '';
+
+startNameInput.addEventListener('input', () => {
+  startBtn.disabled = (startNameInput.value.trim() === '');
+});
+// 입력창이 보일 때 자동 스크롤 조정
+startNameInput.addEventListener('focus', () => {
+  setTimeout(() => {
+    startScreen.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }, 100);
+});
+
+startForm.onsubmit = e => {
+  e.preventDefault();
+  userName = startNameInput.value.trim();
+  if (!userName) return;
+
+  // 시작 화면 감춤
+  startScreen.style.display = 'none';
+
+  // 첫 메시지 출력 후 챗봇 대화 진행
+  appendMessage('bot', `반가워요, ${userName}님! 금주책방 마스코트 널북이입니다.`);
+  botAsk('start');
+};
+
+function appendMessage(sender, text) {
+  // sender: 'bot' or 'user'
+  const wrap = document.createElement('div');
+  wrap.className = `msg-wrap ${sender}`;
+  if (sender === 'bot') {
+    const pic = document.createElement('img');
+    pic.className = 'msg-pic';
+    pic.src = "1.png";
+    pic.alt = '널북이';
+    wrap.appendChild(pic);
+    const msg = document.createElement('div');
+    msg.className = 'message bot';
+    msg.textContent = text;
+    wrap.appendChild(msg);
+  } else {
+    const msg = document.createElement('div');
+    msg.className = 'message user';
+    msg.textContent = text;
+    wrap.appendChild(msg);
+  }
+  chatbox.appendChild(wrap);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+function showChoices(choiceArr) {
+  choicesDiv.innerHTML = '';
+  choicesDiv.style.display = 'flex';
+  choiceArr.forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = choice.text;
+    btn.onclick = () => onUserChoice(choice);
+    choicesDiv.appendChild(btn);
+  });
+}
+function onUserChoice(choice) {
+  appendMessage('user', choice.text);
+  choicesDiv.style.display = 'none';
+  setTimeout(() => {
+    if (choice.next) {
+      botAsk(choice.next);
+    } else {
+      botAsk('end');
+    }
+  }, 360);
+}
+function botAsk(key) {
+  const b = botDialog[key];
+  if (!b) return appendMessage('bot','잠시 오류가 발생했습니다.');
+  appendMessage('bot', b.text.replace('{userName}', userName));
+  if (b.choices) showChoices(b.choices);
+}
+const botDialog = {
+  start: {
+    text: '안녕하세요, {userName}님! 어떤 점이 궁금하신가요?',
+    choices: [
+      { text: '절주 방법 추천해줘', next: 'methods' },
+      { text: '절주 동기 부여 듣고 싶어', next: 'motivation' },
+      { text: '절주가 어려우면 어떻게 해?', next: 'difficulty' }
+    ]
+  },
+  methods: {
+    text: '작은 목표를 세우고 음주 시 기록을 해보세요. 운동이나 산책 등으로 기분 전환도 도움이 돼요.',
+    choices: [
+      { text: '동기 부여 한마디 듣기', next: 'motivation' },
+      { text: '절주 어려움 상담', next: 'difficulty' },
+      { text: '상담 종료', next: 'end' }
+    ]
+  },
+  motivation: {
+    text: '{userName}님, 절주는 미래의 건강을 위한 멋진 선택이에요. 널북이가 끝까지 함께 응원할게요!',
+    choices: [
+      { text: '절주 방법 다시 듣기', next: 'methods' },
+      { text: '절주 어려움 상담', next: 'difficulty' },
+      { text: '상담 종료', next: 'end' }
+    ]
+  },
+  difficulty: {
+    text: '친구나 가족에게 고민을 털어놓거나, 전문가 상담도 좋은 방법이에요. 혼자 고민하지 말고 널북이와 함께해요!',
+    choices: [
+      { text: '절주 방법 듣기', next: 'methods' },
+      { text: '동기 부여 듣기', next: 'motivation' },
+      { text: '상담 종료', next: 'end' }
+    ]
+  },
+  end: {
+    text: '상담을 마칩니다. 언제든 널북이를 찾아주세요. 당신을 응원합니다!'
+  }
+};
+</script>
+</body>
+</html>
