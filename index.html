@@ -191,7 +191,7 @@ const botDialog = {
     ]
   },
   risk_info: {
-    text: '{userName}님, 과음은 건강에 좋지 않답니다. 어떤 정보가 필요하신가요?',
+    text: '{userName}님은 지금 과음하고 있어요. 과음은 건강에 좋지 않답니다. 어떤 정보가 필요하신가요?',
     choices: [
       { text: '건강이 어떻게 나빠져?', next: 'health_impact' },
       { text: '절주 실천 방법 자세히 알려줘', next: 'learn_methods' },
@@ -199,7 +199,7 @@ const botDialog = {
     ]
   },
   normal_week: {
-    text: '일주일에 1~2회 정도 음주하시는 분들도 많으시지만, 이게 꾸준히 이어지면 간 건강이나 수면에 영향을 줄 수 있어요, {userName}님. 혹시 피곤함이나 숙면 어려움을 겪고 계신가요? 건강한 절주 습관을 위해 어떤 것이 가장 궁금하세요?',
+    text: '주 1~2회의 음주도, 간 건강이나 수면에 영향을 줄 수 있어요, {userName}님. 혹시 피곤함이나 숙면 어려움을 겪고 계신가요? 건강한 절주 습관을 위해 어떤 것이 가장 궁금하세요?',
     choices: [
       { text: '절주 실천법 알려줘', next: 'learn_methods' },
       { text: '술 줄이는 데 도움이 되는 기관 있으면 추천해줘', next: 'org_recommend' },
@@ -215,7 +215,7 @@ const botDialog = {
     ]
   },
   more_health: {
-    text: '보건복지부 연구에 따르면, 습관적 음주는 암, 심장질환뿐 아니라 정신 건강까지 영향을 끼쳐요. 몸과 마음 모두 위해서 관심 가져주셔서 감사합니다, {userName}님. 관심 분야를 더 알려주시면 안내해드릴게요.',
+    text: '보건복지부와 한국건강증진개발원의 연구에 따르면, 습관적 음주는 암, 심장질환뿐 아니라 정신 건강까지 영향을 끼쳐요. {userName}님! 더 궁금한게 있나요? 알려주시면 안내해드릴게요.',
     choices: [
       { text: '절주 방법 더 알려줘', next: 'learn_methods' },
       { text: '상담기관 추천해줘', next: 'org_recommend' },
@@ -223,15 +223,15 @@ const botDialog = {
     ]
   },
   org_recommend: {
-    text: '한국건강증진개발원과 보건복지부가 있습니다! 또 중독관리통합지원센터도 {userName}의 절주와 금주를 실천하게 도와줍니다. 도움이 궁금하면 전화번호나 자세한 기관 안내를 이어 드릴까요?',
+    text: '중독관리통합지원센터에서는 {userName}님의 절주와 금주를 실천하게 도와줍니다. 또 한국건강증진개발원과 보건복지부에서도 많은 도움을 받을 수 있습니다! 도움이 궁금하면 전화번호나 자세한 기관 안내를 이어 드릴까요?',
     choices: [
-      { text: '웅 더 안내해줘!', next: 'org_detail' },
+      { text: '응 더 안내해줘!', next: 'org_detail' },
       { text: '절주 실천법 바로 보고 싶어', next: 'learn_methods' },
       { text: '내 절주 목표 한 번 더 세워볼래', next: 'set_goal' }
     ]
   },
   org_detail: {
-    text: '{userName}님, 중독관리통합지원센터 전국 어디서나 1393로 무료로 전화 상담을 받을 수 있습니다. 한국건강증진개발원에서도 자료와 지역 센터 정보를 확인할 수 있습니다. 필요하실 때 언제든 이용해 보세요!',
+    text: '중독관리통합지원센터 전국 어디서나 1393로 무료로 전화 상담을 받을 수 있습니다. 한국건강증진개발원에서도 지역 센터 정보를 확인할 수 있습니다. 필요하실 때 언제든 이용해 보세요!',
     choices: [
       { text: '절주 실천법 알려줘', next: 'learn_methods' },
       { text: '내 목표 다시 정할래', next: 'set_goal' },
@@ -247,7 +247,7 @@ const botDialog = {
     ]
   },
   goal_tips: {
-    text: '작은 목표부터 세우고 달성 과정을 기록하시면 의욕·자신감이 쑥쑥 올라갈 거예요! {userName}님, 실천할 때 제일 궁금한 점은 무엇이신가요?',
+    text: '작은 목표부터 세우고 달성 과정을 기록하시면 자신감이 쑥쑥 올라갈 거예요! {userName}님, 실천할 때 제일 궁금한 점은 무엇이신가요?',
     choices: [
       { text: '실천 팁을 더 알려줘', next: 'reduction_tips' },
       { text: '스트레스 관리 비법 알려줘', next: 'stress1' },
@@ -257,13 +257,13 @@ const botDialog = {
   hobby1: {
     text: '{userName}님, 운동이나 요리, 산책, 음악 감상 등 해보고 싶은 취미가 있으세요?',
     choices: [
-      { text: '운동 뭐가 좋아?', next: 'hobby_sport' },
+      { text: '운동에 관심이 있어! 운동은 어때?', next: 'hobby_sport' },
       { text: '집에서 할만한 거 알려줘', next: 'hobby_home' },
       { text: '특별한 취미 알려줘', next: 'hobby_special' }
     ]
   },
   hobby_sport: {
-    text: '운동은 스트레스도 풀어주고 절주에도 정말 좋아요! 달리기, 산책, 자전거, 팀 스포츠 혹시 해본 적 있나요, {userName}님?',
+    text: '운동은 스트레스도 풀어주고 절주에도 정말 좋아요! {userName}님은 달리기, 산책, 자전거, 팀 스포츠 혹시 해본 적 있나요?',
     choices: [
       { text: '걷기나 달리기 해볼게', next: 'encourage' },
       { text: '피트니스나 홈트 관심 있어', next: 'encourage' },
@@ -271,19 +271,19 @@ const botDialog = {
     ]
   },
   hobby_home: {
-    text: '{userName}님이라면 홈베이킹, 독서, 명상, 요가도 멋진 선택이랍니다! 요리나 책, 혹은 휴식 중 뭐가 더 땡기세요?',
+    text: '집에서는 독서나 명상 요리를 할 수 있어요! {userName}님은 어디에 관심이 있나요?',
     choices: [
       { text: '요리 도전해볼래', next: 'encourage' },
-      { text: '명상, 호흡법 들어볼래', next: 'relaxation_techniques' },
-      { text: '집에서 책 읽는 거 좋아해', next: 'encourage' }
+      { text: '명상에 관심이 있어', next: 'relaxation_techniques' },
+      { text: '독서에 관심이 있어', next: 'encourage' }
     ]
   },
   hobby_special: {
-    text: '디지털 드로잉, 음악 만들기, 온라인 클래스 같은 덕질도 적극 추천드려요! {userName}님은 어떤 것에 호기심이 있으세요?',
+    text: '디지털 드로잉, 승마, 양모펠트 같은 특별한 활동도 적극 추천드려요! {userName}님은 어떤 것에 호기심이 있으세요?',
     choices: [
-      { text: '미술 활동 해보고 싶어', next: 'encourage' },
-      { text: '음악 한 번 배워볼래', next: 'encourage' },
-      { text: '온라인 강의 듣기 할래', next: 'encourage' }
+      { text: '디지털 드로잉 재밌겠다! 활동 해보고 싶어', next: 'encourage' },
+      { text: '승마 재밌을꺼 같아! 나중에 해봐야겠어', next: 'encourage' },
+      { text: '양모펠트 할래', next: 'encourage' }
     ]
   },
   learn_methods: {
@@ -295,7 +295,7 @@ const botDialog = {
     ]
   },
   step_guide: {
-    text: '술자리를 최소화하고, 음주 양을 기록하고, 나에게 맞는 대체활동을 찾으세요. 자세히 듣고 싶으시면 언제든 질문해 주세요, {userName}님.',
+    text: '술자리를 최소화하고, 음주 양을 기록하고, 나에게 맞는 대체 활동을 찾으세요. {userName}님이 더 궁금한게 있으시면 언제든 질문해 주세요.',
     choices: [
       { text: '더 자세히 듣고 싶어', next: 'more_tips' },
       { text: '바로 실천 시작할래', next: 'review' },
@@ -303,7 +303,7 @@ const botDialog = {
     ]
   },
   environment_tips: {
-    text: '{userName}님, 술자리보다 산책, 취미 모임, 카페에서 만남을 제안하거나, 주위에 절주 목표를 미리 밝혀두는 게 큰 도움이 됩니다. 실천하며 궁금한 점은 뭔가요?',
+    text: '{userName}님의 주변 사람들에게 술자리보다 산책, 취미 모임, 카페에서 만남을 제안하거나, 주위에 절주 목표를 미리 밝혀두는 게 큰 도움이 될꺼에요',
     choices: [
       { text: '가족, 친구와 미리 약속할래', next: 'peer_sharing' },
       { text: '기관 상담도 도움될까?', next: 'org_recommend' },
@@ -327,7 +327,7 @@ const botDialog = {
     ]
   },
   review: {
-    text: '{userName}님, 요즘 절주나 금주 실천은 얼마나 힘드셨나요?',
+    text: '{userName}님, 요즘 절주나 금주 실천에서 힘든 부분이 있었나요?',
     choices: [
       { text: '생각보다 잘 됐어', next: 'encourage' },
       { text: '스트레스 때문에 힘들었어', next: 'more_tips' },
@@ -335,9 +335,9 @@ const botDialog = {
     ]
   },
   more_tips: {
-    text: '{userName}님, 매일 규칙적인 운동, 스트레스 일기, 명상·호흡법, 다이어트 대신 좋은 음식 찾아먹기까지 다양한 방법을 실천할 수 있어요. 어떤 게 제일 궁금하세요?',
+    text: '{userName}님, 매일 규칙적인 운동, 스트레스 일기, 명상, 호흡법같은 다양한 방법을 실천할 수 있어요. 어떤 게 제일 궁금하세요?',
     choices: [
-      { text: '명상·호흡법 듣고 싶어', next: 'relaxation_techniques' },
+      { text: '명상, 호흡법 듣고 싶어', next: 'relaxation_techniques' },
       { text: '운동 추천해줘', next: 'encourage' },
       { text: '상담기관 정보다시 설명해줘', next: 'org_recommend' }
     ]
@@ -383,7 +383,7 @@ const botDialog = {
     ]
   },
   reduction_tips: {
-    text: '{userName}님, 절주 실천에 도움이 될 만한 팁을 더 안내해 드릴까요? (하루 술 마신 양 기록하기, 음주 대신 산책, 가족·친구에게 목표 공유...)',
+    text: '하루 술 마신 양 기록하기, 음주 대신 산책하기, 가족이나 친구에게 목표 공유하기가 있어요! {userName}님, 절주 실천에 도움이 될 만한 팁을 더 안내해 드릴까요?',
     choices: [
       { text: '목표 다시 세울래', next: 'set_goal' },
       { text: '취미 추천해줘', next: 'hobby1' },
